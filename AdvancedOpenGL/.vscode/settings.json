@@ -49,6 +49,7 @@
         "xtree": "cpp",
         "array": "cpp",
         "bit": "cpp",
-        "clocale": "cpp"
+        "clocale": "cpp",
+        "regex": "cpp"
     }
 }

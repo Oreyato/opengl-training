@@ -3,13 +3,13 @@
 //
 
 #include "Scene_007_SpinningCube.h"
+
 #include "../engine/Timer.h"
 #include "../engine/MacroUtils.h"
 
 #include <cstdlib>
 #include <ctime>
 #include <GL/glew.h>
-
 
 Scene_007_SpinningCube::Scene_007_SpinningCube()
 {

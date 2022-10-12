@@ -25,6 +25,8 @@ void Scene_Snake::load() {
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
     projection = Matrix4::createPerspectiveFOV(70.0f, game->windowWidth, game->windowHeight, 0.1f, 1000.0f);
+    //projection = Matrix4::createOrtho(game->windowWidth, game->windowHeight, 0.1f, 1000.0f);
+    
     static const GLfloat vertexPositions[] =
     {
             -0.25f,  0.25f, -0.25f,
@@ -108,13 +110,15 @@ void Scene_Snake::handleEvent(const InputState &inputState) {
 }
 
 void Scene_Snake::update(float dt) {
-    for(int i = 0; i < 24; ++i)
+    for(int i = 0; i < 1; ++i)
     {
         const float t = i + Timer::getTimeSinceStart() * 0.3f;
         transform[i] = Matrix4::createTranslation(Vector3(0.0f, 0.0f, -10.0f))
             * Matrix4::createRotationY(t * Maths::toRadians(45.0f))
             * Matrix4::createRotationX(t * Maths::toRadians(21.0f))
-            * Matrix4::createTranslation(Vector3(Maths::sin(2.1f * t) * 2.0f, Maths::cos(1.7f * t) * 2.0f, Maths::sin(1.3f * t) * Maths::cos(1.5f * t) * 2.0f));
+            * Matrix4::createTranslation(Vector3(Maths::sin(2.1f * t) * 2.0f, 
+                                                 Maths::cos(1.7f * t) * 2.0f, 
+                                                 Maths::sin(1.3f * t) * Maths::cos(1.5f * t) * 2.0f));
     }
 }
 
@@ -124,10 +128,10 @@ void Scene_Snake::draw()
     glClearBufferfv(GL_COLOR, 0, bgColor);
 
     shader.use();
-    shader.setMatrix4("proj_matrix", projection);
     for(int i = 0; i < 24; ++i)
     {
         shader.setMatrix4("mv_matrix", transform[i]);
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
+    shader.setMatrix4("proj_matrix", projection);
 }
