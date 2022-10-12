@@ -7,7 +7,6 @@ Cube::~Cube(){
 }
 
 void Cube::load(){
-
     static const GLfloat vertexPositions[] =
     {
         -0.25f, 0.25f, -0.25f,

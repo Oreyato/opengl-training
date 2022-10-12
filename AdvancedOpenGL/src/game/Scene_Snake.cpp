@@ -6,8 +6,7 @@
 #include <ctime>
 #include <GL/glew.h>
 
-Scene_Snake::Scene_Snake()
-{
+Scene_Snake::Scene_Snake() {
 }
 
 Scene_Snake::~Scene_Snake() {
@@ -27,71 +26,7 @@ void Scene_Snake::load() {
     projection = Matrix4::createPerspectiveFOV(70.0f, game->windowWidth, game->windowHeight, 0.1f, 1000.0f);
     //projection = Matrix4::createOrtho(game->windowWidth, game->windowHeight, 0.1f, 1000.0f);
     
-    static const GLfloat vertexPositions[] =
-    {
-            -0.25f,  0.25f, -0.25f,
-            -0.25f, -0.25f, -0.25f,
-             0.25f, -0.25f, -0.25f,
-
-             0.25f, -0.25f, -0.25f,
-             0.25f,  0.25f, -0.25f,
-            -0.25f,  0.25f, -0.25f,
-
-             0.25f, -0.25f, -0.25f,
-             0.25f, -0.25f,  0.25f,
-             0.25f,  0.25f, -0.25f,
-
-             0.25f, -0.25f,  0.25f,
-             0.25f,  0.25f,  0.25f,
-             0.25f,  0.25f, -0.25f,
-
-             0.25f, -0.25f,  0.25f,
-            -0.25f, -0.25f,  0.25f,
-             0.25f,  0.25f,  0.25f,
-
-            -0.25f, -0.25f,  0.25f,
-            -0.25f,  0.25f,  0.25f,
-             0.25f,  0.25f,  0.25f,
-
-            -0.25f, -0.25f,  0.25f,
-            -0.25f, -0.25f, -0.25f,
-            -0.25f,  0.25f,  0.25f,
-
-            -0.25f, -0.25f, -0.25f,
-            -0.25f,  0.25f, -0.25f,
-            -0.25f,  0.25f,  0.25f,
-
-            -0.25f, -0.25f,  0.25f,
-             0.25f, -0.25f,  0.25f,
-             0.25f, -0.25f, -0.25f,
-
-             0.25f, -0.25f, -0.25f,
-            -0.25f, -0.25f, -0.25f,
-            -0.25f, -0.25f,  0.25f,
-
-            -0.25f,  0.25f, -0.25f,
-             0.25f,  0.25f, -0.25f,
-             0.25f,  0.25f,  0.25f,
-
-             0.25f,  0.25f,  0.25f,
-            -0.25f,  0.25f,  0.25f,
-            -0.25f,  0.25f, -0.25f
-    };
-
-    // Generate data and put it in buffer object
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
-
-    // Setup vertex attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glEnableVertexAttribArray(0);
-
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CW);
-
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
+    cube.load();
 
     shader = Assets::getShader(SHADER_ID(SHADER_NAME));
 }
@@ -110,7 +45,8 @@ void Scene_Snake::handleEvent(const InputState &inputState) {
 }
 
 void Scene_Snake::update(float dt) {
-    for(int i = 0; i < 1; ++i)
+    // Update snake body
+    for(int i = 0; i < snakeBodyCount; ++i)
     {
         const float t = i + Timer::getTimeSinceStart() * 0.3f;
         transform[i] = Matrix4::createTranslation(Vector3(0.0f, 0.0f, -10.0f))
@@ -120,6 +56,14 @@ void Scene_Snake::update(float dt) {
                                                  Maths::cos(1.7f * t) * 2.0f, 
                                                  Maths::sin(1.3f * t) * Maths::cos(1.5f * t) * 2.0f));
     }
+    // Update apple
+    for(int i = snakeBodyCount; i < snakeBodyCount + appleCount; ++i)
+    {
+        const float t = i + Timer::getTimeSinceStart() * 0.3f;
+        transform[i] = Matrix4::createTranslation(Vector3(0.0f, 0.0f, -10.0f))
+            * Matrix4::createRotationX(t * Maths::toRadians(20.0f));
+            //* Matrix4::createTranslation(Vector3(0.0f, 0.0f, Maths::cos(0.5 * t) * 2.0f));
+        }
 }
 
 void Scene_Snake::draw()
@@ -128,10 +72,17 @@ void Scene_Snake::draw()
     glClearBufferfv(GL_COLOR, 0, bgColor);
 
     shader.use();
-    for(int i = 0; i < 24; ++i)
+    shader.setMatrix4("proj_matrix", projection);
+    // Draw snake body
+    for(int i = 0; i < snakeBodyCount; ++i)
     {
         shader.setMatrix4("mv_matrix", transform[i]);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        cube.draw();
     }
-    shader.setMatrix4("proj_matrix", projection);
+    // Draw apple
+    for(int i = snakeBodyCount; i < snakeBodyCount + appleCount; ++i)
+    {
+        shader.setMatrix4("mv_matrix", transform[j]);
+        cube.draw();
+    }
 }

@@ -4,6 +4,8 @@
 #include "../engine/Scene.h"
 #include "../engine/Assets.h"
 
+#include "Cube.h"
+
 class Scene_Snake : public Scene {
 public:
     Scene_Snake();
@@ -25,6 +27,13 @@ private:
     Matrix4 projection;
 
     Shader shader;
+
+    // Divergences from the Scene_008
+    Cube cube;
+
+    int snakeBodyCount{3};
+    int appleCount{1};
+
 };
 
 #endif //Scene_Snake_H
