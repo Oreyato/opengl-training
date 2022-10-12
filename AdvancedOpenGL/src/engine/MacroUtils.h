@@ -20,7 +20,7 @@
 #define SHADER_ID(s) STR(s)
 
 #define SCENE_NAME Scene_Snake
-#define SHADER_NAME IDENT(008_SpinningCubes)
+#define SHADER_NAME IDENT(snake)
 
 /**
  * Scene_Snake
