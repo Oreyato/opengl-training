@@ -10,7 +10,13 @@ public:
     Snake(/* args */);
     ~Snake();
 
+    void createSnake();
+
+    void moveHead(float xP, float yP);
+    void updateSnakePositions();
+
 private:
+    BodyPart snakeHead;
     std::vector<BodyPart> snakeBody;
 
 };
