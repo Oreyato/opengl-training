@@ -1,91 +1,43 @@
 #include "Cube.h"
 
-Cube::Cube(){
+#include "CubeMesh.h"
+#include "../engine/Shader.h"
+
+Cube::Cube(float xP, float yP, CubeMesh* cubeMeshP) :
+    x { xP }, y { yP }, cubeMesh { cubeMeshP }
+{
+    setPosition(xP, yP);
 }
 
 Cube::~Cube(){
 }
 
 void Cube::load(){
-    static const GLfloat vertexPositions[] =
-    {
-        -0.25f, 0.25f, -0.25f,
-        -0.25f, -0.25f, -0.25f,
-        0.25f, -0.25f, -0.25f,
-
-        0.25f, -0.25f, -0.25f,
-        0.25f, 0.25f, -0.25f,
-        -0.25f, 0.25f, -0.25f,
-        
-        0.25f, -0.25f, -0.25f,
-        0.25f, -0.25f, 0.25f,
-        0.25f, 0.25f, -0.25f,
-
-        0.25f, -0.25f, 0.25f,
-        0.25f, 0.25f, 0.25f,
-        0.25f, 0.25f, -0.25f,
-
-        0.25f, -0.25f, 0.25f,
-        -0.25f, -0.25f, 0.25f,
-        0.25f, 0.25f, 0.25f,
-
-        -0.25f, -0.25f, 0.25f,
-        -0.25f, 0.25f, 0.25f,
-        0.25f, 0.25f, 0.25f,
-
-        -0.25f, -0.25f, 0.25f,
-        -0.25f, -0.25f, -0.25f,
-        -0.25f, 0.25f, 0.25f,
-        
-        -0.25f, -0.25f, -0.25f,
-        -0.25f, 0.25f, -0.25f,
-        -0.25f, 0.25f, 0.25f,
-
-        -0.25f, -0.25f, 0.25f,
-        0.25f, -0.25f, 0.25f,
-        0.25f, -0.25f, -0.25f,
-
-        0.25f, -0.25f, -0.25f,
-        -0.25f, -0.25f, -0.25f,
-        -0.25f, -0.25f, 0.25f,
-
-        -0.25f, 0.25f, -0.25f,
-        0.25f, 0.25f, -0.25f,
-        0.25f, 0.25f, 0.25f,
-
-        0.25f, 0.25f, 0.25f,
-        -0.25f, 0.25f, 0.25f,
-        -0.25f, 0.25f, -0.25f
-    };  
-
-    // Generate data and put it in buffer object
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
-
-    // Setup vertex attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glEnableVertexAttribArray(0);
-
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CW);
-
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
 }
 
 void Cube::clean(){
-
 }
 
 void Cube::update(){
 
 }
 
-void Cube::draw(){
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+void Cube::draw(Shader& shader){
+    shader.setMatrix4("mv_matrix", transform);
+    cubeMesh->draw();
 }
 
 void Cube::setUniformScale(float scaleP) {
     
+}
+
+void Cube::setPosition(float xP, float yP) {
+    x = xP;
+    y = yP;
+
+    transform = computeTransform();
+}
+
+Matrix4 Cube::computeTransform() {
+    return Matrix4::createTranslation(Vector3(x, y, z));
 }

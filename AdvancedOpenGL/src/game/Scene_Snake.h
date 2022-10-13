@@ -21,15 +21,13 @@ public:
 
 private:
     Game *game;
-    GLuint vao;
-    GLuint buffer;
-    Matrix4 transform[24];
-    Matrix4 projection;
 
+    Matrix4 projection;
     Shader shader;
 
     // Divergences from the Scene_008
-    Cube cube;
+    CubeMesh* cubeMesh;
+    vector<Cube> cubes;
 
     int snakeBodyCount{3};
     int appleCount{1};
