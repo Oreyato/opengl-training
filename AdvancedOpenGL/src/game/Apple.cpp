@@ -23,10 +23,8 @@ void Apple::update() {
     // Auto z sinusoidal translation
     float zTranslation = Maths::sin(5.f * t) * 1.5f;
     //                              ^ speed     ^ magnitude
-
     // Auto rotation
     float autoRot = zRotSpeed * t * Maths::toRadians(zRot);
-
     // Auto movement
     transform = Matrix4::createTranslation(Vector3(x, y, z + zTranslation)) 
               * Matrix4::createScale(uniformScale)

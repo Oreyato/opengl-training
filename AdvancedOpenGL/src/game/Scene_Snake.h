@@ -2,7 +2,7 @@
 #define Scene_Snake_H
 
 #include "../engine/Scene.h"
-#include "../engine/Assets.h"
+// #include "../engine/Assets.h"
 
 #include "Apple.h"
 
