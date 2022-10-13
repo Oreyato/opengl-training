@@ -35,7 +35,10 @@ void Scene_Snake::load() {
 
     shader = Assets::getShader(SHADER_ID(SHADER_NAME));
 
-    cubes.emplace_back(0.0f, 0.0f, cubeMesh);
+    cubes.emplace_back(0.0f, -.5f, -4.0f, cubeMesh, 0.5f);
+    cubes.emplace_back(1.0f, 0.0f, -4.0f, cubeMesh);
+    cubes.emplace_back(-1.0f, 0.0f, -4.0f, cubeMesh, 2.0f);
+    cubes.emplace_back(0.0f, -1.0f, -4.0f, cubeMesh, 1.5f);
 }
 
 void Scene_Snake::clean() {
