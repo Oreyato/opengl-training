@@ -34,7 +34,7 @@ public:
     Matrix4 computeTransform();
     //^ Transform ===========================================
 
-private:
+protected:
     GLuint buffer;
 
     //v Transform ===========================================

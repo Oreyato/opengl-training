@@ -4,7 +4,7 @@
 #include "../engine/Scene.h"
 #include "../engine/Assets.h"
 
-#include "Cube.h"
+#include "Apple.h"
 
 class Scene_Snake : public Scene {
 public:
@@ -29,9 +29,12 @@ private:
     CubeMesh* cubeMesh;
     vector<Cube> cubes;
 
+    vector<Apple> apples;
+
     int snakeBodyCount{3};
     int appleCount{1};
 
+    float maxDepth{-10.0f};
 };
 
 #endif //Scene_Snake_H

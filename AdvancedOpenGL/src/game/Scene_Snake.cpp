@@ -35,10 +35,15 @@ void Scene_Snake::load() {
 
     shader = Assets::getShader(SHADER_ID(SHADER_NAME));
 
-    cubes.emplace_back(0.0f, -.5f, -4.0f, cubeMesh, 0.5f);
-    cubes.emplace_back(1.0f, 0.0f, -4.0f, cubeMesh);
-    cubes.emplace_back(-1.0f, 0.0f, -4.0f, cubeMesh, 2.0f);
-    cubes.emplace_back(0.0f, -1.0f, -4.0f, cubeMesh, 1.5f);
+
+
+    cubes.emplace_back(0.0f, -.5f, maxDepth, cubeMesh, 0.5f);
+    cubes.emplace_back(1.0f, 0.0f, maxDepth, cubeMesh);
+    cubes.emplace_back(-1.0f, 0.0f, maxDepth, cubeMesh, 2.0f);
+    cubes.emplace_back(0.0f, -1.0f, maxDepth, cubeMesh, 1.5f);
+
+    apples.emplace_back(.0f, .0f, maxDepth, cubeMesh, .5f, 125.0f);
+    apples.emplace_back(2.0f, 2.0f, maxDepth, cubeMesh, 1.0f);
 }
 
 void Scene_Snake::clean() {
@@ -59,6 +64,11 @@ void Scene_Snake::update(float dt) {
     for (auto& cube : cubes)
     {
         cube.update();
+    }
+
+    for (auto& apple : apples)
+    {
+        apple.update();
     }
     
 
@@ -107,5 +117,11 @@ void Scene_Snake::draw()
     {
         cube.draw(shader);
     }
+
+    for (auto& apple : apples)
+    {
+        apple.draw(shader);
+    }
+    
     
 }
