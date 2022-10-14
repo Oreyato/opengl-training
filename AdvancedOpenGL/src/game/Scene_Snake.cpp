@@ -100,10 +100,14 @@ void Scene_Snake::update(float dt) {
 
     for (int i = 2; i < snakeBody.size(); i++)
     {
+        if (i == 4) {
+            std::cout << "test";
+        }
+
         doesHeadCollidesBody = collision(snakeHead, snakeBody[i]);
     }
     if (doesHeadCollidesBody) {
-        std::cout << "hun";
+        std::cout << "test";
     }
 
     // Collision against an apple =========
