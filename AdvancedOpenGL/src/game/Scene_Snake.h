@@ -20,6 +20,10 @@ public:
     void draw();
     void setGame(Game *);
 
+    bool collision(Cube cubeA, Cube cubeB);
+
+    void spawnApple();
+
 private:
     Game *game;
 
@@ -31,11 +35,9 @@ private:
     vector<Cube> cubes;
 
     Snake* snake;
+    Vector3 snakeDirection { 1, 0, 0 };
 
     vector<Apple> apples;
-
-    int snakeBodyCount{3};
-    int appleCount{1};
 
     float maxDepth{-10.0f};
 };

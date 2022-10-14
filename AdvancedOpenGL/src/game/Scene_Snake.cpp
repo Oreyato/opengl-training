@@ -37,11 +37,11 @@ void Scene_Snake::load() {
 
     //v Load snake and apples ===============================
     // Snake parts
-    snake = new Snake(0.0f, 0.0f, maxDepth, 1.0f, 0.5f, 0.5f, 4, cubeMesh, cubeMesh);
+    snake = new Snake(-5.0f, 0.0f, maxDepth, 1.0f, 0.5f, 0.25f, 4, cubeMesh, cubeMesh);
 
     // Apples
     apples.emplace_back(.0f, .0f, maxDepth, cubeMesh, .5f, 125.0f);
-    apples.emplace_back(2.0f, 2.0f, maxDepth, cubeMesh, 1.0f);
+    // apples.emplace_back(2.0f, 2.0f, maxDepth, cubeMesh, 1.0f);
     //^ Load snake and apples ===============================
 }
 
@@ -59,10 +59,26 @@ void Scene_Snake::resume() {
 }
 
 void Scene_Snake::handleEvent(const InputState &inputState) {
+    if (inputState.keyboardState.isHeld(SDL_SCANCODE_A) || inputState.keyboardState.isHeld(SDL_SCANCODE_LEFT)) {
+        snakeDirection = Vector3( -1, 0, 0 );
+        snake->setMoveDirection(snakeDirection);
+    } 
+    else if (inputState.keyboardState.isHeld(SDL_SCANCODE_D) || inputState.keyboardState.isHeld(SDL_SCANCODE_RIGHT)) {
+        snakeDirection = Vector3( 1, 0, 0 );
+        snake->setMoveDirection(snakeDirection);
+    } 
+    else if (inputState.keyboardState.isHeld(SDL_SCANCODE_W) || inputState.keyboardState.isHeld(SDL_SCANCODE_UP)) {
+        snakeDirection = Vector3( 0, 1, 0 );
+        snake->setMoveDirection(snakeDirection);
+    } 
+    else if (inputState.keyboardState.isHeld(SDL_SCANCODE_S) || inputState.keyboardState.isHeld(SDL_SCANCODE_DOWN)) {
+        snakeDirection = Vector3( 0, -1, 0 );
+        snake->setMoveDirection(snakeDirection);
+    } 
 }
 
 void Scene_Snake::update(float dt) {
-
+    //v Movements =============================
     // Ref this code with a pointer to only use one loop
     for (auto& cube : cubes)
     {
@@ -73,6 +89,19 @@ void Scene_Snake::update(float dt) {
         apple.update();
     }
     snake->update();
+    //^ Movements =============================
+    //v Test collisions =======================
+    BodyPart snakeHead = snake->getSnakeBody()[0];
+
+    bool doesHeadCollidesApple = Scene_Snake::collision(snakeHead, apples[0]);
+
+    if (doesHeadCollidesApple) {
+        // Delete apple
+
+        // Add a segment
+    }
+
+    //^ Test collisions =======================
 }
 
 void Scene_Snake::draw()
@@ -92,7 +121,26 @@ void Scene_Snake::draw()
     for (auto& apple : apples)
     {
         apple.draw(shader);
-    }
-    
-        
+    }        
+}
+
+bool Scene_Snake::collision(Cube cubeA, Cube cubeB) {
+    float cubeAminX = cubeA.getXPos() - cubeA.getWidth();
+    float cubeAmaxX = cubeA.getXPos() + cubeA.getWidth();
+    float cubeAminY = cubeA.getYPos() - cubeA.getHeight();
+    float cubeAmaxY = cubeA.getYPos() + cubeA.getHeight();
+
+    float cube2minX = cubeB.getXPos() - cubeB.getWidth();
+    float cube2maxX = cubeB.getXPos() + cubeB.getWidth();
+    float cube2minY = cubeB.getYPos() - cubeB.getHeight();
+    float cube2maxY = cubeB.getYPos() + cubeB.getHeight();
+
+    return (cube2maxX >= cubeAminX && cube2maxX <= cubeAmaxX
+    && cube2minY >= cubeAminY && cube2minY <= cubeAmaxY )
+    || (cube2minX >= cubeAminX && cube2minX <= cubeAmaxX
+    && cube2minY >= cubeAminY && cube2minY <= cubeAmaxY )
+    || (cube2minX >= cubeAminX && cube2minX <= cubeAmaxX
+    && cube2maxY <= cubeAmaxY && cube2maxY >= cubeAminY)
+    || (cube2maxX >= cubeAminX && cube2maxX <= cubeAmaxX
+    && cube2maxY >= cubeAminY && cube2maxY <= cubeAmaxY);
 }

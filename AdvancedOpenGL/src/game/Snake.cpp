@@ -58,6 +58,10 @@ void Snake::draw(Shader& shaderP) {
     
 }
 
+void Snake::setMoveDirection(Vector3 moveDirectionP) {
+    moveDirection = moveDirectionP;
+}
+
 void Snake::moveHead() {
     x = x + stepSize*moveDirection.x;
     y = y + stepSize*moveDirection.y;

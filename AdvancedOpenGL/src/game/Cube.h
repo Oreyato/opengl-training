@@ -32,6 +32,9 @@ public:
     float getZRot() const { return zRot; };
     void setRotation(float xRotP, float yRotP, float zRotP);
 
+    float getWidth() const { return uniformScale*0.25f; };
+    float getHeight() const { return uniformScale*0.25f; };
+
     Matrix4 computeTransform();
     //^ Transform ===========================================
 

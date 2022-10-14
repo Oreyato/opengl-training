@@ -18,7 +18,7 @@ public:
     void draw(Shader& shaderP);
 
     Vector3 getMoveDirection() const { return moveDirection; };
-    void setMoveDirection();
+    void setMoveDirection(Vector3 moveDirectionP);
 
     float getStepSize() const { return stepSize; };
     void setStepSize(float stepSizeP);
@@ -28,6 +28,8 @@ public:
 
     void moveHead();
     void updateBodyPos();
+
+    std::vector<BodyPart> getSnakeBody() const { return snakeBody; };
 
 private:
     BodyPart snakeHead;
@@ -51,4 +53,4 @@ private:
     float timer { 0 };
 };
 
-#endif SNAKE_H
+#endif // SNAKE_H
