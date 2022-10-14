@@ -1,4 +1,9 @@
 #include "Snake.h"
+#include "../engine/Timer.h"
+
+
+#include <cstdlib>
+#include <ctime>
 
 Snake::Snake(float xP, float yP, float zP, float scaleP, float stepSizeP, float delayP, int segmentNbP, CubeMesh* headMeshP, CubeMesh* bodyPartMeshP) :
     x { xP }, y { yP }, z { zP }, scale { scaleP }, stepSize { stepSizeP }, delay { delayP }, segmentNb { segmentNbP }, headMesh { headMeshP }, bodyPartMeshP { bodyPartMeshP }
@@ -30,12 +35,21 @@ void Snake::createSnake() {
 void Snake::load() {
 
 }
+
 void Snake::clean() {
 
 }
-void Snake::update() {
 
+void Snake::update() {
+    timer += 1.0f;
+
+    if (timer >= delay * 100.0f) {
+        updateBodyPos();
+
+        timer -= delay * 100.0f;
+    }    
 }
+
 void Snake::draw(Shader& shaderP) {
     for (auto& snakePart : snakeBody)
     {
@@ -56,7 +70,7 @@ void Snake::moveHead() {
 }
 
 void Snake::updateBodyPos() {
-    for (int i = snakeBody.size(); i > 0; i--)
+    for (int i = snakeBody.size() - 1; i > 0; --i)
     {
         // Get next body part position
         float newXpos = snakeBody[i - 1].getXPos();

@@ -37,7 +37,7 @@ void Scene_Snake::load() {
 
     //v Load snake and apples ===============================
     // Snake parts
-    snake = new Snake(0.0f, 0.0f, maxDepth, 1.0f, 0.5f, 1.0f, 4.0f, cubeMesh, cubeMesh);
+    snake = new Snake(0.0f, 0.0f, maxDepth, 1.0f, 0.5f, 0.5f, 4, cubeMesh, cubeMesh);
 
     // Apples
     apples.emplace_back(.0f, .0f, maxDepth, cubeMesh, .5f, 125.0f);
@@ -72,6 +72,7 @@ void Scene_Snake::update(float dt) {
     {
         apple.update();
     }
+    snake->update();
 }
 
 void Scene_Snake::draw()

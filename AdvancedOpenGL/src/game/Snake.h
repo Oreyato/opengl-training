@@ -39,7 +39,7 @@ private:
 
     float scale { 1.0f };
 
-    Vector3 moveDirection { 0, 0, 0 };
+    Vector3 moveDirection { 1, 0, 0 };
     float stepSize { 1.0f };
     float delay { 1.0f };
 
@@ -47,6 +47,8 @@ private:
     
     CubeMesh* headMesh { nullptr };
     CubeMesh* bodyPartMeshP { nullptr };
+
+    float timer { 0 };
 };
 
 #endif SNAKE_H
