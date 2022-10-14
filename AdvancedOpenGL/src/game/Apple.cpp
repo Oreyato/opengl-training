@@ -21,7 +21,7 @@ void Apple::update() {
     const float t = Timer::getTimeSinceStart() * 0.3f;
 
     // Auto z sinusoidal translation
-    float zTranslation = Maths::sin(5.f * t) * 1.5f;
+    float zTranslation = Maths::sin(5.f * t) * 0.5f;
     //                              ^ speed     ^ magnitude
     // Auto rotation
     float autoRot = zRotSpeed * t * Maths::toRadians(zRot);

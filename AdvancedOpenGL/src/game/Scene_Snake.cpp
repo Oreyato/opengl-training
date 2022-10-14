@@ -37,11 +37,11 @@ void Scene_Snake::load() {
 
     //v Load snake and apples ===============================
     // Snake parts
-    snake = new Snake(-5.0f, 0.0f, maxDepth, 1.0f, 0.5f, 0.25f, 0, cubeMesh, cubeMesh);
+    snake = new Snake(-5.0f, 0.0f, maxDepth, 1.0f, 0.5f, 0.25f, 2, cubeMesh, cubeMesh);
 
     // Apples
-    apples.emplace_back(.0f, .0f, maxDepth, cubeMesh, .5f, 125.0f);
-    apples.emplace_back(2.0f, 2.0f, maxDepth, cubeMesh, .5f, 125.0f);
+    apples.emplace_back(.0f, .0f, maxDepth, cubeMesh, .5f, 150.0f);
+    apples.emplace_back(2.0f, 2.0f, maxDepth, cubeMesh, .5f, 150.0f);
     //^ Load snake and apples ===============================
 }
 
@@ -91,15 +91,28 @@ void Scene_Snake::update(float dt) {
     snake->update();
     //^ Movements ==================================
     //v Test collisions ============================
+    // Get the snake body
+    vector<BodyPart> snakeBody = snake->getSnakeBody();
     // Get the snake head
-    BodyPart snakeHead = snake->getSnakeBody()[0];
+    BodyPart snakeHead = snakeBody[0];
+    // Collision against a body part ======
+    bool doesHeadCollidesBody = false;
+
+    for (int i = 2; i < snakeBody.size(); i++)
+    {
+        doesHeadCollidesBody = collision(snakeHead, snakeBody[i]);
+    }
+    if (doesHeadCollidesBody) {
+        std::cout << "hun";
+    }
+
     // Collision against an apple =========
     bool doesHeadCollidesApple = false;
     int appleId = -1;
 
     for (int i = 0; i < apples.size(); i++)
     {
-        doesHeadCollidesApple = Scene_Snake::collision(snakeHead, apples[i]);
+        doesHeadCollidesApple = collision(snakeHead, apples[i]);
 
         if (doesHeadCollidesApple) {
             appleId = i;
@@ -108,15 +121,23 @@ void Scene_Snake::update(float dt) {
         }
     }
     if (appleId != -1) {
+        // Add one point
+        score++;
+
         // Delete apple
         apples.erase(apples.begin() + appleId);
-        // Spawn a new one
-
+        // Prepare constraints
+        float constrX = 6;
+        float constrY = 4;
+        float appleXPos = -constrX + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(constrX+constrX)));;
+        float appleYPos = -constrY + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(constrY+constrY)));;
+        // Spawn a new apple
+        apples.emplace_back(appleXPos, appleYPos, maxDepth, cubeMesh, 0.5f, 150.0f);
         // Add a segment
         snake->addBodySegment();
+        // Improve speed!
+        snake->setDelay(snake->getDelay()*.975f);
     }
-    // Collision against a body part ======
-
 
     // Collision against a wall ===========
 
@@ -150,13 +171,13 @@ bool Scene_Snake::collision(Cube cubeA, Cube cubeB) {
     float cubeAminY = cubeA.getYPos() - cubeA.getHeight();
     float cubeAmaxY = cubeA.getYPos() + cubeA.getHeight();
 
-    float cube2minX = cubeB.getXPos() - cubeB.getWidth();
-    float cube2maxX = cubeB.getXPos() + cubeB.getWidth();
-    float cube2minY = cubeB.getYPos() - cubeB.getHeight();
-    float cube2maxY = cubeB.getYPos() + cubeB.getHeight();
+    float cubeBminX = cubeB.getXPos() - cubeB.getWidth();
+    float cubeBmaxX = cubeB.getXPos() + cubeB.getWidth();
+    float cubeBminY = cubeB.getYPos() - cubeB.getHeight();
+    float cubeBmaxY = cubeB.getYPos() + cubeB.getHeight();
 
-    return (cube2maxX >= cubeAminX && cube2maxX <= cubeAmaxX && cube2minY >= cubeAminY && cube2minY <= cubeAmaxY )
-    || (cube2minX >= cubeAminX && cube2minX <= cubeAmaxX && cube2minY >= cubeAminY && cube2minY <= cubeAmaxY )
-    || (cube2minX >= cubeAminX && cube2minX <= cubeAmaxX && cube2maxY <= cubeAmaxY && cube2maxY >= cubeAminY)
-    || (cube2maxX >= cubeAminX && cube2maxX <= cubeAmaxX && cube2maxY >= cubeAminY && cube2maxY <= cubeAmaxY);
+    return (cubeBmaxX >= cubeAminX && cubeBmaxX <= cubeAmaxX && cubeBminY >= cubeAminY && cubeBminY <= cubeAmaxY )
+    || (cubeBminX >= cubeAminX && cubeBminX <= cubeAmaxX && cubeBminY >= cubeAminY && cubeBminY <= cubeAmaxY )
+    || (cubeBminX >= cubeAminX && cubeBminX <= cubeAmaxX && cubeBmaxY <= cubeAmaxY && cubeBmaxY >= cubeAminY)
+    || (cubeBmaxX >= cubeAminX && cubeBmaxX <= cubeAmaxX && cubeBmaxY >= cubeAminY && cubeBmaxY <= cubeAmaxY);
 }

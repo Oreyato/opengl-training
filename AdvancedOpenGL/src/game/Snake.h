@@ -23,8 +23,8 @@ public:
     float getStepSize() const { return stepSize; };
     void setStepSize(float stepSizeP);
 
-    float getTimeUpdate() const { return delay; };
-    void setTimeUpdate(float delayP);
+    float getDelay() const { return delay; };
+    void setDelay(float delayP);
 
     void moveHead();
     void updateBodyPos();

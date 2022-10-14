@@ -23,7 +23,6 @@ public:
     Matrix4 computeTransform();
     //^ Auto rotation =======================================
     //v Interactions ========================================
-    void pickUp();
 
     //^ Interactions ========================================
 

@@ -62,6 +62,10 @@ void Snake::setMoveDirection(Vector3 moveDirectionP) {
     moveDirection = moveDirectionP;
 }
 
+void Snake::setDelay(float delayP) {
+    delay = delayP;
+}
+
 void Snake::moveHead() {
     x = x + stepSize*moveDirection.x;
     y = y + stepSize*moveDirection.y;

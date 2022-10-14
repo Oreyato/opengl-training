@@ -40,6 +40,8 @@ private:
     vector<Apple> apples;
 
     float maxDepth{-10.0f};
+
+    int score { 0 };
 };
 
 #endif //Scene_Snake_H
