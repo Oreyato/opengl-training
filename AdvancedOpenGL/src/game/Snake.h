@@ -13,7 +13,7 @@ public:
     void createSnake();
 
     void moveHead(float xP, float yP);
-    void updateSnakePositions();
+    void updateBodyPos();
 
 private:
     BodyPart snakeHead;
