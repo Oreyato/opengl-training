@@ -31,6 +31,8 @@ public:
 
     std::vector<BodyPart> getSnakeBody() const { return snakeBody; };
 
+    void addBodySegment();
+
 private:
     BodyPart snakeHead;
     std::vector<BodyPart> snakeBody;

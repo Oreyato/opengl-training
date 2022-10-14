@@ -37,11 +37,11 @@ void Scene_Snake::load() {
 
     //v Load snake and apples ===============================
     // Snake parts
-    snake = new Snake(-5.0f, 0.0f, maxDepth, 1.0f, 0.5f, 0.25f, 4, cubeMesh, cubeMesh);
+    snake = new Snake(-5.0f, 0.0f, maxDepth, 1.0f, 0.5f, 0.25f, 0, cubeMesh, cubeMesh);
 
     // Apples
     apples.emplace_back(.0f, .0f, maxDepth, cubeMesh, .5f, 125.0f);
-    // apples.emplace_back(2.0f, 2.0f, maxDepth, cubeMesh, 1.0f);
+    apples.emplace_back(2.0f, 2.0f, maxDepth, cubeMesh, .5f, 125.0f);
     //^ Load snake and apples ===============================
 }
 
@@ -78,7 +78,7 @@ void Scene_Snake::handleEvent(const InputState &inputState) {
 }
 
 void Scene_Snake::update(float dt) {
-    //v Movements =============================
+    //v Movements ==================================
     // Ref this code with a pointer to only use one loop
     for (auto& cube : cubes)
     {
@@ -89,19 +89,39 @@ void Scene_Snake::update(float dt) {
         apple.update();
     }
     snake->update();
-    //^ Movements =============================
-    //v Test collisions =======================
+    //^ Movements ==================================
+    //v Test collisions ============================
+    // Get the snake head
     BodyPart snakeHead = snake->getSnakeBody()[0];
+    // Collision against an apple =========
+    bool doesHeadCollidesApple = false;
+    int appleId = -1;
 
-    bool doesHeadCollidesApple = Scene_Snake::collision(snakeHead, apples[0]);
+    for (int i = 0; i < apples.size(); i++)
+    {
+        doesHeadCollidesApple = Scene_Snake::collision(snakeHead, apples[i]);
 
-    if (doesHeadCollidesApple) {
+        if (doesHeadCollidesApple) {
+            appleId = i;
+
+            break;
+        }
+    }
+    if (appleId != -1) {
         // Delete apple
+        apples.erase(apples.begin() + appleId);
+        // Spawn a new one
 
         // Add a segment
+        snake->addBodySegment();
     }
+    // Collision against a body part ======
 
-    //^ Test collisions =======================
+
+    // Collision against a wall ===========
+
+
+    //^ Test collisions ============================
 }
 
 void Scene_Snake::draw()

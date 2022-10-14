@@ -21,12 +21,12 @@ void Snake::createSnake() {
     // Add it inside the body vector
     snakeBody.emplace_back(snakeHead);
 
-    // Create every other parts
     float offset = stepSize * scale * 0.85;
 
+    // Create every other parts
     for (int i = 1; i < segmentNb + 1; i++)
     {
-        BodyPart bodypart = BodyPart(x - offset*i, y, z, bodyPartMeshP, scale*0.85);
+        BodyPart bodypart = BodyPart(x - offset*i, y, z, bodyPartMeshP, scale*0.85f);
         // Emplace back them inside the vector
         snakeBody.emplace_back(bodypart);
     }
@@ -67,10 +67,8 @@ void Snake::moveHead() {
     y = y + stepSize*moveDirection.y;
     z = z + stepSize*moveDirection.z;
 
-    // Change head position toward a direction every "delay"
+    // Change head position toward a direction
     snakeBody[0].setPosition(x, y, z);
-
-    // The direction can be changed by keyboard inputs
 }
 
 void Snake::updateBodyPos() {
@@ -85,4 +83,13 @@ void Snake::updateBodyPos() {
     }
     
     moveHead(); // placeholder values
+}
+
+void Snake::addBodySegment() {
+    // New segments will be added right behind the snake's head
+    float offset = stepSize * scale * 0.85;
+
+    BodyPart bodypart = BodyPart(x - offset*moveDirection.x, y - offset*moveDirection.y, z, bodyPartMeshP, scale*0.85f);
+    // Emplace back them inside the vector
+    snakeBody.emplace_back(bodypart);
 }
