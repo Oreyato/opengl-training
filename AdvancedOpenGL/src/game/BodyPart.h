@@ -8,6 +8,8 @@ class BodyPart :
 {
 public:
     BodyPart(float xP, float yP, float zP, CubeMesh* cubeMeshP, float uniScaleP);
+    BodyPart() = default;
+
     ~BodyPart();
 
 private:

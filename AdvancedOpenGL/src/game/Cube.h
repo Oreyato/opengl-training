@@ -10,6 +10,7 @@ class Shader;
 class Cube
 {
 public:
+    Cube() = default;
     Cube(float xP, float yP, float zP, CubeMesh* cubeMeshP, float uniScaleP = 1.0f);
     ~Cube();
     void load();

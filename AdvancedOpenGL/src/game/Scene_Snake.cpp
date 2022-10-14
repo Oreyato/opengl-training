@@ -37,10 +37,7 @@ void Scene_Snake::load() {
 
     //v Load snake and apples ===============================
     // Snake parts
-    cubes.emplace_back(0.0f, -.5f, maxDepth, cubeMesh, 0.5f);
-    cubes.emplace_back(1.0f, 0.0f, maxDepth, cubeMesh);
-    cubes.emplace_back(-1.0f, 0.0f, maxDepth, cubeMesh, 2.0f);
-    cubes.emplace_back(0.0f, -1.0f, maxDepth, cubeMesh, 1.5f);
+    snake = new Snake(0.0f, 0.0f, maxDepth, 1.0f, 0.5f, 1.0f, 4.0f, cubeMesh, cubeMesh);
 
     // Apples
     apples.emplace_back(.0f, .0f, maxDepth, cubeMesh, .5f, 125.0f);
@@ -51,6 +48,8 @@ void Scene_Snake::load() {
 void Scene_Snake::clean() {
     cubeMesh->clean();
     delete cubeMesh;
+
+    delete snake;
 }
 
 void Scene_Snake::pause() {
@@ -83,6 +82,8 @@ void Scene_Snake::draw()
     shader.use();
     shader.setMatrix4("proj_matrix", projection);
 
+    snake->draw(shader);
+
     for (auto& cube : cubes)
     {
         cube.draw(shader);
@@ -91,5 +92,6 @@ void Scene_Snake::draw()
     {
         apple.draw(shader);
     }
+    
         
 }

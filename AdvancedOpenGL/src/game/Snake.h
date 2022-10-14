@@ -7,18 +7,46 @@
 class Snake
 {
 public:
-    Snake(/* args */);
+    Snake(float xP, float yP, float zP, float scaleP, float stepSizeP, float delayP, int segmentNbP, CubeMesh* headMeshP, CubeMesh* bodyPartMeshP);
     ~Snake();
 
     void createSnake();
 
-    void moveHead(float xP, float yP);
+    void load();
+    void clean();
+    void update();
+    void draw(Shader& shaderP);
+
+    Vector3 getMoveDirection() const { return moveDirection; };
+    void setMoveDirection();
+
+    float getStepSize() const { return stepSize; };
+    void setStepSize(float stepSizeP);
+
+    float getTimeUpdate() const { return delay; };
+    void setTimeUpdate(float delayP);
+
+    void moveHead();
     void updateBodyPos();
 
 private:
     BodyPart snakeHead;
     std::vector<BodyPart> snakeBody;
 
+    float x { 0.0f };
+    float y { 0.0f };
+    float z { 0.0f };
+
+    float scale { 1.0f };
+
+    Vector3 moveDirection { 0, 0, 0 };
+    float stepSize { 1.0f };
+    float delay { 1.0f };
+
+    int segmentNb { 3 };
+    
+    CubeMesh* headMesh { nullptr };
+    CubeMesh* bodyPartMeshP { nullptr };
 };
 
 #endif SNAKE_H

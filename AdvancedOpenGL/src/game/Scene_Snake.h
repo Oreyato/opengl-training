@@ -5,6 +5,7 @@
 // #include "../engine/Assets.h"
 
 #include "Apple.h"
+#include "Snake.h"
 
 class Scene_Snake : public Scene {
 public:
@@ -28,6 +29,8 @@ private:
     // Divergences from the Scene_008
     CubeMesh* cubeMesh;
     vector<Cube> cubes;
+
+    Snake* snake;
 
     vector<Apple> apples;
 
