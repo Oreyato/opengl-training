@@ -135,12 +135,8 @@ bool Scene_Snake::collision(Cube cubeA, Cube cubeB) {
     float cube2minY = cubeB.getYPos() - cubeB.getHeight();
     float cube2maxY = cubeB.getYPos() + cubeB.getHeight();
 
-    return (cube2maxX >= cubeAminX && cube2maxX <= cubeAmaxX
-    && cube2minY >= cubeAminY && cube2minY <= cubeAmaxY )
-    || (cube2minX >= cubeAminX && cube2minX <= cubeAmaxX
-    && cube2minY >= cubeAminY && cube2minY <= cubeAmaxY )
-    || (cube2minX >= cubeAminX && cube2minX <= cubeAmaxX
-    && cube2maxY <= cubeAmaxY && cube2maxY >= cubeAminY)
-    || (cube2maxX >= cubeAminX && cube2maxX <= cubeAmaxX
-    && cube2maxY >= cubeAminY && cube2maxY <= cubeAmaxY);
+    return (cube2maxX >= cubeAminX && cube2maxX <= cubeAmaxX && cube2minY >= cubeAminY && cube2minY <= cubeAmaxY )
+    || (cube2minX >= cubeAminX && cube2minX <= cubeAmaxX && cube2minY >= cubeAminY && cube2minY <= cubeAmaxY )
+    || (cube2minX >= cubeAminX && cube2minX <= cubeAmaxX && cube2maxY <= cubeAmaxY && cube2maxY >= cubeAminY)
+    || (cube2maxX >= cubeAminX && cube2maxX <= cubeAmaxX && cube2maxY >= cubeAminY && cube2maxY <= cubeAmaxY);
 }
