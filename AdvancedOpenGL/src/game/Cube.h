@@ -21,7 +21,7 @@ public:
     //v Transform ===========================================
     float getUniformScale() const { return uniformScale; };
     void setUniformScale(float scaleP);
-    
+
     float getXPos() const { return x; };
     float getYPos() const { return y; };
     float getZPos() const { return z; };

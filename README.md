@@ -55,5 +55,3 @@ Created a little snake game using his engine.
 13.   When the configuration finished, press F7 to compile (as you can see in the screenshot above)
     
 14.  If you want to test if everything is working, press F5
-
-### Open the right scene
