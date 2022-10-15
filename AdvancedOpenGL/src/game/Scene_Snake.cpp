@@ -59,19 +59,19 @@ void Scene_Snake::resume() {
 }
 
 void Scene_Snake::handleEvent(const InputState &inputState) {
-    if (inputState.keyboardState.isHeld(SDL_SCANCODE_A) || inputState.keyboardState.isHeld(SDL_SCANCODE_LEFT)) {
+    if (inputState.keyboardState.isJustPressed(SDL_SCANCODE_A) || inputState.keyboardState.isJustPressed(SDL_SCANCODE_LEFT)) {
         snakeDirection = Vector3( -1, 0, 0 );
         snake->setMoveDirection(snakeDirection);
     } 
-    else if (inputState.keyboardState.isHeld(SDL_SCANCODE_D) || inputState.keyboardState.isHeld(SDL_SCANCODE_RIGHT)) {
+    else if (inputState.keyboardState.isJustPressed(SDL_SCANCODE_D) || inputState.keyboardState.isJustPressed(SDL_SCANCODE_RIGHT)) {
         snakeDirection = Vector3( 1, 0, 0 );
         snake->setMoveDirection(snakeDirection);
     } 
-    else if (inputState.keyboardState.isHeld(SDL_SCANCODE_W) || inputState.keyboardState.isHeld(SDL_SCANCODE_UP)) {
+    else if (inputState.keyboardState.isJustPressed(SDL_SCANCODE_W) || inputState.keyboardState.isJustPressed(SDL_SCANCODE_UP)) {
         snakeDirection = Vector3( 0, 1, 0 );
         snake->setMoveDirection(snakeDirection);
     } 
-    else if (inputState.keyboardState.isHeld(SDL_SCANCODE_S) || inputState.keyboardState.isHeld(SDL_SCANCODE_DOWN)) {
+    else if (inputState.keyboardState.isJustPressed(SDL_SCANCODE_S) || inputState.keyboardState.isJustPressed(SDL_SCANCODE_DOWN)) {
         snakeDirection = Vector3( 0, -1, 0 );
         snake->setMoveDirection(snakeDirection);
     } 
@@ -100,10 +100,6 @@ void Scene_Snake::update(float dt) {
 
     for (int i = 2; i < snakeBody.size(); i++)
     {
-        if (i == 4) {
-            std::cout << "test";
-        }
-
         doesHeadCollidesBody = collision(snakeHead, snakeBody[i]);
     }
     if (doesHeadCollidesBody) {
