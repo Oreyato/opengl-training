@@ -3,6 +3,7 @@
 ### Resume
 
 Engine provided by Gaetz: [git repository here](https://github.com/Gaetz/opengl-training)
+
 Created a little snake game using his engine.
 
 ### Status 
