@@ -22,12 +22,17 @@ void Scene_005_Tessellation::setGame(Game *_game) {
 
 void Scene_005_Tessellation::load() {
     std::srand((int) std::time(nullptr));
+
     Assets::loadShader("assets/shaders/005_tessellation.vert", "assets/shaders/005_tessellation.frag",
                                 "assets/shaders/005_tessellation.tesc", "assets/shaders/005_tessellation.tese",
-                                "assets/shaders/005_tessellation.geom", "005_tessellation");
+                                "", "005_tessellation"
+    );
 
     glCreateVertexArrays(1, &vao);
     glBindVertexArray(vao);
+
+    glPatchParameteri(GL_PATCH_VERTICES, 4);
+
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     shader = Assets::getShader("005_tessellation");
@@ -47,6 +52,12 @@ void Scene_005_Tessellation::handleEvent(const InputState &inputState) {
 }
 
 void Scene_005_Tessellation::update(float dt) {
+    float timeValue = (float)SDL_GetTicks()/1000;
+
+    innerVal = (abs(sin(timeValue))) * 15.0f;
+    outerVal = (abs(sin(timeValue))) * 15.0f;
+
+    std::cout << innerVal << " : " << outerVal << std::endl;
 }
 
 void Scene_005_Tessellation::draw() {
@@ -54,6 +65,11 @@ void Scene_005_Tessellation::draw() {
     glClearBufferfv(GL_COLOR, 0, bgColor);
 
     shader.use();
+
+    shader.setFloat("inner", innerVal);
+    shader.setFloat("outer", outerVal);
+
     glPointSize(5.0f);
-    glDrawArrays(GL_PATCHES, 0, 3);
+
+    glDrawArrays(GL_PATCHES, 0, 4);
 }

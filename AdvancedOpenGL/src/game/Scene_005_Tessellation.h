@@ -26,6 +26,9 @@ private:
     Game *game;
     GLuint vao;
     Shader shader;
+
+    float innerVal{ 5.0f };
+    float outerVal{ 5.0f };
 };
 
 

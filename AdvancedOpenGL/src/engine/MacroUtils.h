@@ -19,18 +19,20 @@
 #define SHADER_COMP(s) PATH3(SHADER_PATH, s, EXT_COMP)
 #define SHADER_ID(s) STR(s)
 
-#define SCENE_NAME Scene_Snake
-#define SHADER_NAME IDENT(snake)
+#define SCENE_NAME Scene_030_Test
+#define SHADER_NAME IDENT(030_Test)
 
 /**
- * Scene_Snake
+ * Scene_030_Test 030_Test
+ * 
+ * Scene_Snake snake
  * 
  * Scene_025_ComputeShaderBoids
  * Scene_024_ComputeShaderRaytracing
  * Scene_023_ComputeShaderGrid
  * Scene_022_ComputeShaderPrefixSum
  * Scene_021_ChangePrimitiveType
- * Scene_020_GenerateGeometry
+ * Scene_020_GenerateGeometry <---- 
  * Scene_019_ModifyGeometry
  * Scene_018_DiscardGeometry
  * Scene_017_CubicBezierPatches
