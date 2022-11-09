@@ -95,10 +95,10 @@ void Scene_030_Test::draw()
     float f = totalTime * timeScale;
 
     // Variables update =====================
-    innerLength = (abs(sin(f)) + 1.0f) * 2.0f;
-    innerWidth = (abs(sin(f)) + 1.0f) * 2.0f;
-    outerWidth = (abs(sin(f)) + 1.0f) * 2.0f;
-    outerLength = (abs(sin(f)) + 1.0f) * 2.0f;
+    innerLength = (abs(sin(f)) + 1.0f) * 5.0f;
+    innerWidth = (abs(sin(f)) + 1.0f) * 5.0f;
+    outerWidth = (abs(sin(f)) + 1.0f) * 5.0f;
+    outerLength = (abs(sin(f)) + 1.0f) * 5.0f;
 
     // Buffer clear =========================
     glClearBufferfv(GL_COLOR, 0, blue);
