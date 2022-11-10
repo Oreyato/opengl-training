@@ -27,6 +27,7 @@ private:
 
     bool tesselation{ true };
     bool wireframe{ false };
+    bool wallpaper{ false };
 
     // Uniforms
     Matrix4 mvp;

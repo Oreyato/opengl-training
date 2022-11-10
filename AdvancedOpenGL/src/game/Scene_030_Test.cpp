@@ -106,9 +106,13 @@ void Scene_030_Test::load() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
     glEnableVertexAttribArray(0);
 
-    //glEnable(GL_CULL_FACE);
-    // glDisable(GL_CULL_FACE);
-    //glCullFace(GL_CW); // GL_BACK
+    if (wallpaper) {
+        glDisable(GL_CULL_FACE);
+    }
+    else {
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_CW); // GL_BACK
+    }
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -144,9 +148,9 @@ void Scene_030_Test::draw()
     // Projections ==========================
     proj = Matrix4::createPerspectiveFOV(45.0f, game->windowWidth, game->windowHeight, 0.1f, 1000.0f);
     view = Matrix4::createTranslation(Vector3(0.0f, 0.0f, -2.0f)) *
+                            Matrix4::createRotationX(f * 4.0f * div) *
                             Matrix4::createRotationY(f * 2.0f * div) *
-                            Matrix4::createRotationX(f * 0.0f) *
-                            Matrix4::createRotationZ(f * 5.0f) 
+                            Matrix4::createRotationZ(f * .0f) 
     ;
 
     shader.use();
@@ -161,7 +165,12 @@ void Scene_030_Test::draw()
 
     // Update geometry shader ===============
 
-    shader.setMatrix4("mvpMatrix", proj * view);
+    if (wallpaper) {
+        shader.setMatrix4("mvpMatrix", proj);
+    }
+    else {
+        shader.setMatrix4("mvpMatrix", proj * view);
+    }
     shader.setMatrix4("mvMatrix", view);
 
     shader.setFloat("stretch", sinf(f * 4.0f) * 0.5f + 1.0001f);
