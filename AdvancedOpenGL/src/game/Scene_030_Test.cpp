@@ -141,7 +141,7 @@ void Scene_030_Test::draw()
 
     // Projections ==========================
     proj = Matrix4::createPerspectiveFOV(45.0f, game->windowWidth, game->windowHeight, 0.1f, 1000.0f);
-    view = Matrix4::createTranslation(Vector3(0.0f, 0.0f, -6.0f)) *
+    view = Matrix4::createTranslation(Vector3(0.0f, 0.0f, -2.0f)) *
                             Matrix4::createRotationY(f * 20.0f) *
                             Matrix4::createRotationX(f * 0.0f)
     ;
@@ -169,13 +169,16 @@ void Scene_030_Test::draw()
     glPointSize(5.0f);
 
     // Actual draw ==========================
-    // int maxI = 8*6;
-    // for (int i = 0; i < maxI; i+=4)
-    // {
-    //     glDrawArrays(GL_PATCHES, i, 4);
-    // }
-
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    if (tesselation) {
+        int maxI = 8*6;
+        for (int i = 0; i < maxI; i+=4)
+        {
+            glDrawArrays(GL_PATCHES, i, 4);
+        }
+    }
+    else  {
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+    }
 
     // glDrawElements(GL_PATCHES, 12, GL_UNSIGNED_SHORT, NULL);
 }

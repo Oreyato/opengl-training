@@ -1,6 +1,6 @@
 #version 450 core
 
-layout (triangles) in;
+layout (triangles) in; // <--- SHOULD BE QUADS?
 layout (triangle_strip, max_vertices = 12) out;
 
 uniform float stretch = 0.7;
