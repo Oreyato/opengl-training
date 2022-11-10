@@ -30,7 +30,9 @@ void Scene_030_Test::resume() {
 }
 
 void Scene_030_Test::handleEvent(const InputState &inputState) {
-
+    if(inputState.keyboardState.isJustPressed(SDL_SCANCODE_W)) {
+        wireframe = !wireframe;
+    }
 }
 
 void Scene_030_Test::load() {
@@ -104,16 +106,14 @@ void Scene_030_Test::load() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
     glEnableVertexAttribArray(0);
 
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
     // glDisable(GL_CULL_FACE);
-    glCullFace(GL_CW); // GL_BACK
+    //glCullFace(GL_CW); // GL_BACK
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
-
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // GL_POINT  GL_LINE  GL_FILL
     
-    glPatchParameteri(GL_PATCH_VERTICES, 4);
+    glPatchParameteri(GL_PATCH_VERTICES, 3);
 
     shader = Assets::getShader(SHADER_ID(SHADER_NAME));
 }
@@ -130,10 +130,12 @@ void Scene_030_Test::draw()
     float f = totalTime * timeScale;
 
     // Variables update =====================
-    inner = abs((sinf(f) + 1.0f) * (innerMaxValue - 1.0f) - (innerMaxValue - 1.0f)) + 1.0f; // Clamp inner between 1 and its max value
+    float div = (sinf(f) + 1.0f) * (innerMaxValue - 1.0f) - (innerMaxValue - 1.0f); 
+    inner = abs(div) + 1.0f; // Clamp inner between 1 and its max value
     outer = abs((sinf(f) + 1.0f) * (outerMaxValue - 1.0f) - (outerMaxValue - 1.0f)) + 1.0f; // Clamp outer between 1 and its max value
 
-    std::cout << outer << std::endl;
+    div /= 2.0f;
+    std::cout << "outer: " << outer << " | div: " << div << std::endl;
 
     // Buffer clear =========================
     glClearBufferfv(GL_COLOR, 0, blue);
@@ -142,8 +144,9 @@ void Scene_030_Test::draw()
     // Projections ==========================
     proj = Matrix4::createPerspectiveFOV(45.0f, game->windowWidth, game->windowHeight, 0.1f, 1000.0f);
     view = Matrix4::createTranslation(Vector3(0.0f, 0.0f, -2.0f)) *
-                            Matrix4::createRotationY(f * 20.0f) *
-                            Matrix4::createRotationX(f * 0.0f)
+                            Matrix4::createRotationY(f * 2.0f * div) *
+                            Matrix4::createRotationX(f * 0.0f) *
+                            Matrix4::createRotationZ(f * 5.0f) 
     ;
 
     shader.use();
@@ -153,10 +156,8 @@ void Scene_030_Test::draw()
     shader.setMatrix4("proj_matrix", proj);
 
     // Update tesselation control shader ====
-    shader.setFloat("innerWidth", inner);
-    shader.setFloat("innerLength", inner);
-    shader.setFloat("outerWidth", outer);
-    shader.setFloat("outerLength", outer);
+    shader.setFloat("inner", inner);
+    shader.setFloat("outer", outer);
 
     // Update geometry shader ===============
 
@@ -170,14 +171,20 @@ void Scene_030_Test::draw()
 
     // Actual draw ==========================
     if (tesselation) {
-        int maxI = 8*6;
-        for (int i = 0; i < maxI; i+=4)
+        int maxI = 6*6;
+        for (int i = 0; i < maxI; i+=3)
         {
-            glDrawArrays(GL_PATCHES, i, 4);
+            glDrawArrays(GL_PATCHES, i, 3);
         }
     }
     else  {
         glDrawArrays(GL_TRIANGLES, 0, 36);
+    }
+
+    if (wireframe) {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_POINT  GL_LINE  GL_FILL
+    } else {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); 
     }
 
     // glDrawElements(GL_PATCHES, 12, GL_UNSIGNED_SHORT, NULL);

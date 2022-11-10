@@ -23,9 +23,10 @@ private:
     GLuint vao;
     GLuint buffer;
     float totalTime;
-    const float timeScale = 0.05f;
+    const float timeScale = 0.25f;
 
     bool tesselation{ true };
+    bool wireframe{ false };
 
     // Uniforms
     Matrix4 mvp;
@@ -33,8 +34,8 @@ private:
     Matrix4 proj;
 
     // Tesselation variables
-    float innerMaxValue{ 1.0f };
-    float outerMaxValue{ 1.0f };
+    float innerMaxValue{ 2.0f };
+    float outerMaxValue{ 4.0f };
     float inner{ 0.0f };
     float outer{ 0.0f };
 
