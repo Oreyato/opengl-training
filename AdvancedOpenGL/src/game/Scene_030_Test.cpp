@@ -41,44 +41,79 @@ void Scene_030_Test::load() {
         Assets::loadShader(SHADER_VERT(SHADER_NAME), SHADER_FRAG(SHADER_NAME), "", "", SHADER_GEOM(SHADER_NAME), SHADER_ID(SHADER_NAME));
     }
 
-    static const GLfloat tetrahedron_verts[] =
-    {
-         0.000f,  0.000f,  1.000f,
-         0.943f,  0.000f, -0.333f,
-        -0.471f,  0.816f, -0.333f,
-        -0.471f, -0.816f, -0.333f
-    };
-
-    static const GLushort tetrahedron_indices[] =
-    {
-        0, 1, 2,
-        0, 2, 3,
-        0, 3, 1,
-        3, 2, 1
-    };
-
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer); // GL_ELEMENT_ARRAY_BUFFER = vertex array indices
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(tetrahedron_verts) + sizeof(tetrahedron_indices), NULL, GL_STATIC_DRAW);
-    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(tetrahedron_indices), tetrahedron_indices);
-    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, sizeof(tetrahedron_indices), sizeof(tetrahedron_verts), tetrahedron_verts);
+    static const GLfloat vertexPositions[] =
+    {
+            -0.25f,  0.25f, -0.25f,
+            -0.25f, -0.25f, -0.25f,
+             0.25f, -0.25f, -0.25f,
 
-    glBindBuffer(GL_ARRAY_BUFFER, buffer); // GL_ARRAY_BUFFER = vertex attributes
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)sizeof(tetrahedron_indices)); // Define an array of generic vertex attributes data
+             0.25f, -0.25f, -0.25f,
+             0.25f,  0.25f, -0.25f,
+            -0.25f,  0.25f, -0.25f,
+
+             0.25f, -0.25f, -0.25f,
+             0.25f, -0.25f,  0.25f,
+             0.25f,  0.25f, -0.25f,
+
+             0.25f, -0.25f,  0.25f,
+             0.25f,  0.25f,  0.25f,
+             0.25f,  0.25f, -0.25f,
+
+             0.25f, -0.25f,  0.25f,
+            -0.25f, -0.25f,  0.25f,
+             0.25f,  0.25f,  0.25f,
+
+            -0.25f, -0.25f,  0.25f,
+            -0.25f,  0.25f,  0.25f,
+             0.25f,  0.25f,  0.25f,
+
+            -0.25f, -0.25f,  0.25f,
+            -0.25f, -0.25f, -0.25f,
+            -0.25f,  0.25f,  0.25f,
+
+            -0.25f, -0.25f, -0.25f,
+            -0.25f,  0.25f, -0.25f,
+            -0.25f,  0.25f,  0.25f,
+
+            -0.25f, -0.25f,  0.25f,
+             0.25f, -0.25f,  0.25f,
+             0.25f, -0.25f, -0.25f,
+
+             0.25f, -0.25f, -0.25f,
+            -0.25f, -0.25f, -0.25f,
+            -0.25f, -0.25f,  0.25f,
+
+            -0.25f,  0.25f, -0.25f,
+             0.25f,  0.25f, -0.25f,
+             0.25f,  0.25f,  0.25f,
+
+             0.25f,  0.25f,  0.25f,
+            -0.25f,  0.25f,  0.25f,
+            -0.25f,  0.25f, -0.25f
+    };
+
+    // Generate data and put it in buffer object
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
+
+    // Setup vertex attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
     glEnableVertexAttribArray(0);
 
-    // glEnable(GL_CULL_FACE);
-    glDisable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
+    // glDisable(GL_CULL_FACE);
+    glCullFace(GL_CW); // GL_BACK
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
-    glPatchParameteri(GL_PATCH_VERTICES, 3);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // GL_POINT  GL_LINE  GL_FILL
+    
+    glPatchParameteri(GL_PATCH_VERTICES, 4);
 
     shader = Assets::getShader(SHADER_ID(SHADER_NAME));
 }
@@ -112,17 +147,35 @@ void Scene_030_Test::draw()
     ;
 
     shader.use();
+
+    // Update vertex shader =================
+    shader.setMatrix4("mv_matrix", view);
+    shader.setMatrix4("proj_matrix", proj);
+
     // Update tesselation control shader ====
-    shader.setFloat("inner", inner);
-    shader.setFloat("outer", outer);
+    shader.setFloat("innerWidth", inner);
+    shader.setFloat("innerLength", inner);
+    shader.setFloat("outerWidth", outer);
+    shader.setFloat("outerLength", outer);
 
     // Update geometry shader ===============
 
     shader.setMatrix4("mvpMatrix", proj * view);
     shader.setMatrix4("mvMatrix", view);
+
     shader.setFloat("stretch", sinf(f * 4.0f) * 0.5f + 1.0001f);
                                    // ^frequency ^magnitude ^offset (to always have a value > 0)
 
     glPointSize(5.0f);
-    glDrawElements(GL_PATCHES, 12, GL_UNSIGNED_SHORT, NULL);
+
+    // Actual draw ==========================
+    // int maxI = 8*6;
+    // for (int i = 0; i < maxI; i+=4)
+    // {
+    //     glDrawArrays(GL_PATCHES, i, 4);
+    // }
+
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    // glDrawElements(GL_PATCHES, 12, GL_UNSIGNED_SHORT, NULL);
 }

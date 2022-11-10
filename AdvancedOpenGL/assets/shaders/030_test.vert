@@ -1,8 +1,11 @@
 #version 450 core
 
-in vec4 vVertex;
+in vec4 position;
+
+uniform mat4 mv_matrix;
+uniform mat4 proj_matrix;
 
 void main(void)
 {
-    gl_Position = vVertex;
+    gl_Position = -position;
 }
