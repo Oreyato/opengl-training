@@ -36,13 +36,19 @@ void main(void)
     vec3 b = gl_in[1].gl_Position.xyz;
     vec3 c = gl_in[2].gl_Position.xyz;
 
-    vec3 d = (a + b) * stretch;
-    vec3 e = (b + c) * stretch;
-    vec3 f = (c + a) * stretch;
-
+/*
+    vec3 d = (a + b);// * stretch;
+    vec3 e = (b + c);// * stretch;
+    vec3 f = (c + a);// * stretch;
+*/
+    vec3 d = (a + b)/2.0f * stretch;
+    vec3 e = (b + c)/2.0f * stretch;
+    vec3 f = (c + a)/2.0f * stretch;
+/*
     a *= (2.0 - stretch);
     b *= (2.0 - stretch);
     c *= (2.0 - stretch);
+*/
 
     make_face(a, d, f);
     make_face(d, b, e);

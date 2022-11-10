@@ -95,10 +95,10 @@ void Scene_030_Test::draw()
     float f = totalTime * timeScale;
 
     // Variables update =====================
-    innerLength = (abs(sin(f)) + 1.0f) * 5.0f;
-    innerWidth = (abs(sin(f)) + 1.0f) * 5.0f;
-    outerWidth = (abs(sin(f)) + 1.0f) * 5.0f;
-    outerLength = (abs(sin(f)) + 1.0f) * 5.0f;
+    inner = abs((sinf(f) + 1.0f) * (innerMaxValue - 1.0f) - (innerMaxValue - 1.0f)) + 1.0f; // Clamp inner between 1 and its max value
+    outer = abs((sinf(f) + 1.0f) * (outerMaxValue - 1.0f) - (outerMaxValue - 1.0f)) + 1.0f; // Clamp outer between 1 and its max value
+
+    std::cout << outer << std::endl;
 
     // Buffer clear =========================
     glClearBufferfv(GL_COLOR, 0, blue);
@@ -106,27 +106,22 @@ void Scene_030_Test::draw()
 
     // Projections ==========================
     proj = Matrix4::createPerspectiveFOV(45.0f, game->windowWidth, game->windowHeight, 0.1f, 1000.0f);
-    view = Matrix4::createTranslation(Vector3(0.0f, 0.0f, -8.0f)) *
+    view = Matrix4::createTranslation(Vector3(0.0f, 0.0f, -6.0f)) *
                             Matrix4::createRotationY(f * 20.0f) *
                             Matrix4::createRotationX(f * 0.0f)
     ;
 
     shader.use();
     // Update tesselation control shader ====
-
-    shader.setFloat("innerLength", innerLength);
-    shader.setFloat("innerWidth", innerWidth);
-    shader.setFloat("outerWidth", outerWidth);
-    shader.setFloat("outerLength", outerLength);
-
-    shader.setFloat("inner", innerWidth);
-    shader.setFloat("outer", outerWidth);
+    shader.setFloat("inner", inner);
+    shader.setFloat("outer", outer);
 
     // Update geometry shader ===============
 
     shader.setMatrix4("mvpMatrix", proj * view);
     shader.setMatrix4("mvMatrix", view);
-    shader.setFloat("stretch", sinf(f * 4.0f) * 0.75f + 1.0f);
+    shader.setFloat("stretch", sinf(f * 4.0f) * 0.5f + 1.0001f);
+                                   // ^frequency ^magnitude ^offset (to always have a value > 0)
 
     glPointSize(5.0f);
     glDrawElements(GL_PATCHES, 12, GL_UNSIGNED_SHORT, NULL);
