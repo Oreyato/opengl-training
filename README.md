@@ -6,9 +6,10 @@ Engine provided by Gaetz: [git repository here](https://github.com/Gaetz/opengl-
 
 Created a little shader animation using his engine.
 
+Animation preview:
 ![Image](https://github.com/Oreyato/opengl-training/blob/MarieTheory/cube.gif)
 
-### Status 
+### Navigation 
 
 - Scene
     - .h: [here](https://github.com/Oreyato/opengl-training/blob/MarieTheory/AdvancedOpenGL/src/game/Scene_030_Test.h "https://github.com/Oreyato/opengl-training/blob/MarieTheory/AdvancedOpenGL/src/game/Scene_030_Test.h")
