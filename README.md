@@ -33,6 +33,7 @@ Animation preview:
 4.  follow the path and paste it here:
 
     ![Image](https://media.discordapp.net/attachments/1029294340700373053/1029295076083499088/unknown.png?width=400&height=137)
+    
     *(in order to solve an issue with git, that don't allow to include executable ~or something like that)*
     
 6.  Execute "Visual Studio Installer"
@@ -49,6 +50,7 @@ Animation preview:
 
     ![Image](https://media.discordapp.net/attachments/1029294340700373053/1029296097673367602/unknown.png?width=155&height=300)
     ![Image](https://media.discordapp.net/attachments/1029294340700373053/1029296160126533693/unknown.png?width=400&height=148)
+
 10.  Change the debugger: Click right here
 
     ![Image](https://media.discordapp.net/attachments/1029294340700373053/1029296773518331944/unknown.png?width=400&height=46)
