@@ -4,21 +4,16 @@
 
 Engine provided by Gaetz: [git repository here](https://github.com/Gaetz/opengl-training)
 
-Created a little snake game using his engine.
+Created a little shader animation using his engine.
 
 ### Status 
 
-- [x] Snake
-	- [x] Can move (using WASD / arrows)
-	- [x] Can grow
-- [x] Apples
-	- [x] Can be eaten
-	- [x] Can spawn randomly
-- [ ] Collisions
-	- [x] Head against apples
-	- [ ] Head against body
-	- [ ] Head against screen bounds
-- [ ] Showing the score using cubes
+- Scene
+    - .h: [here](https://github.com/Oreyato/opengl-training/blob/MarieTheory/AdvancedOpenGL/src/game/Scene_030_Test.h "https://github.com/Oreyato/opengl-training/blob/MarieTheory/AdvancedOpenGL/src/game/Scene_030_Test.h")
+    - .cpp: [here](https://github.com/Oreyato/opengl-training/blob/MarieTheory/AdvancedOpenGL/src/game/Scene_030_Test.cpp "https://github.com/Oreyato/opengl-training/blob/MarieTheory/AdvancedOpenGL/src/game/Scene_030_Test.cpp")
+- Tesselation Control Shader: [here](https://github.com/Oreyato/opengl-training/blob/MarieTheory/AdvancedOpenGL/assets/shaders/030_test.tesc "https://github.com/Oreyato/opengl-training/blob/MarieTheory/AdvancedOpenGL/assets/shaders/030_test.tesc")
+- Tesselation Evaluation Shader: [here](https://github.com/Oreyato/opengl-training/blob/MarieTheory/AdvancedOpenGL/assets/shaders/030_test.tese "https://github.com/Oreyato/opengl-training/blob/MarieTheory/AdvancedOpenGL/assets/shaders/030_test.tese")
+- Geometry Shader: [here](https://github.com/Oreyato/opengl-training/blob/MarieTheory/AdvancedOpenGL/assets/shaders/030_test.geom "https://github.com/Oreyato/opengl-training/blob/MarieTheory/AdvancedOpenGL/assets/shaders/030_test.geom")
 
 ### Install
 
