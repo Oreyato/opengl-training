@@ -51,8 +51,11 @@ Animation preview:
     ![Image](https://media.discordapp.net/attachments/1029294340700373053/1029296097673367602/unknown.png?width=155&height=300)
     ![Image](https://media.discordapp.net/attachments/1029294340700373053/1029296160126533693/unknown.png?width=400&height=148)
 
-10.  Change the debugger: Click right here
+10.  Change the debugger:
+
     ![Image](https://media.discordapp.net/attachments/1029294340700373053/1029296773518331944/unknown.png?width=400&height=46)
+
+    Click right here
     
 11.  Choose this one:
     ![Image](https://media.discordapp.net/attachments/1029294340700373053/1029296989449506876/unknown.png?width=400&height=123)
