@@ -52,15 +52,12 @@ Animation preview:
     ![Image](https://media.discordapp.net/attachments/1029294340700373053/1029296160126533693/unknown.png?width=400&height=148)
 
 10.  Change the debugger: Click right here
-
     ![Image](https://media.discordapp.net/attachments/1029294340700373053/1029296773518331944/unknown.png?width=400&height=46)
     
 11.  Choose this one:
-
     ![Image](https://media.discordapp.net/attachments/1029294340700373053/1029296989449506876/unknown.png?width=400&height=123)
     
 12.  Type CTRL + SHIFT + P and select CMake:Configure
-
     ![Image](https://media.discordapp.net/attachments/1029294340700373053/1029297249227907112/unknown.png?width=400&height=81)
     
 13.   When the configuration finished, press F7 to compile (as you can see in the screenshot above)
