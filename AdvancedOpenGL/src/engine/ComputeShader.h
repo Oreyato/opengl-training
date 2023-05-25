@@ -28,6 +28,8 @@ public:
 private:
     GLuint cs;
 
+	void printProgramInfoLog(GLuint programId);
+
     void compileComputeShader(const GLchar *cSource);
     void createShaderProgram();
 };
