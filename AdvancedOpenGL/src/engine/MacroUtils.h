@@ -19,12 +19,11 @@
 #define SHADER_COMP(s) PATH3(SHADER_PATH, s, EXT_COMP)
 #define SHADER_ID(s) STR(s)
 
-#define SCENE_NAME Scene_Snake
-#define SHADER_NAME IDENT(snake)
+#define SCENE_NAME Scene_004_PassingData
+#define SHADER_NAME IDENT(004_PassingData)
 
 /**
  * Scene_030_Test 030_Test
- * 
  * Scene_Snake snake
  * 
  * Scene_025_ComputeShaderBoids
