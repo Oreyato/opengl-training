@@ -23,12 +23,16 @@ public:
 
 private:
     Game *game;
+    GLuint frameIndex;
 
     GLuint dataBuffer[2];
     float inputData[NUM_ELEMENTS];
-    ComputeShader cShader;
+    float outputData[NUM_ELEMENTS];
+
+    ComputeShader computeShader;
 
     int randomInt();
+    bool randomBool();
 };
 
 #endif //Scene_040_GameOfLife_H
