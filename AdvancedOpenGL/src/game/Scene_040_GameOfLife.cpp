@@ -48,18 +48,24 @@ void Scene_040_GameOfLife::load() {
     //
 
     glBindBuffer(GL_ARRAY_BUFFER, dataBuffer[0]);
-    bool* ptr = reinterpret_cast<bool *>(
-                        glMapBufferRange(
-                            GL_ARRAY_BUFFER, 0, NUM_ELEMENTS * sizeof(bool), 
-                            GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT
-                        )
-    );
+    // bool* ptr = reinterpret_cast<bool *>(
+    //                     glMapBufferRange(
+    //                         GL_ARRAY_BUFFER, 0, NUM_ELEMENTS * sizeof(bool), 
+    //                         GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT
+    //                     )
+    // );
 
     for (int i = 0; i < NUM_ELEMENTS; i++) {
-        ptr[i] = randomBool();
+        inputData[i] = randomBool();
     }
 
     glUnmapBuffer(GL_ARRAY_BUFFER);
+
+    int n;
+    glGetIntegerv(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, &n);
+
+    glShaderStorageBlockBinding(computeShader.id, 0, 0);
+    glShaderStorageBlockBinding(computeShader.id, 1, 1);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -75,13 +81,41 @@ void Scene_040_GameOfLife::handleEvent(const InputState &inputState) {
 }
 
 void Scene_040_GameOfLife::update(float dt) {
+    bool* ptr{ nullptr };
+
+    // glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, dataBuffer[frameIndex]);
+    // glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, dataBuffer[frameIndex ^ 1]);
+
+    glBindBufferRange(GL_SHADER_STORAGE_BUFFER, 0, dataBuffer[0], 0, sizeof(bool) * NUM_ELEMENTS);
+    glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(bool) * NUM_ELEMENTS, inputData);
+
+    glBindBufferRange(GL_SHADER_STORAGE_BUFFER, 1, dataBuffer[1], 0, sizeof(bool) * NUM_ELEMENTS);
+
     computeShader.use();
-
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, dataBuffer[frameIndex]);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, dataBuffer[frameIndex ^ 1]);
-
     glDispatchCompute(NUM_ELEMENTS, 1, 1);
-}
+
+    glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+    // glFinish();
+
+    bool* data = new bool[NUM_ELEMENTS];
+    glGetBufferSubData(GL_SHADER_STORAGE_BUFFER, 1, sizeof(bool) * NUM_ELEMENTS, data);
+
+    // glBindBufferRange(GL_SHADER_STORAGE_BUFFER, 0, dataBuffer[1], 0, sizeof(bool) * NUM_ELEMENTS);
+    // ptr = (bool*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, sizeof(bool) * NUM_ELEMENTS, GL_MAP_READ_BIT);
+
+    // const int bufferSize = NUM_ELEMENTS / 2;
+    // char buffer[bufferSize];
+    // sprintf(buffer, 
+    //     "LIFE: %i %i %i %i %i", 
+    //         ptr[0], ptr[1], ptr[2], ptr[3], ptr[4]
+    // );
+
+    for (int i = 0; i < 25; i++) {
+        LOG(Info) << data[i];
+    }
+
+    //glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+}   
 
 void Scene_040_GameOfLife::draw() {
 
